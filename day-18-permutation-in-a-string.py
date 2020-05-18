@@ -1,23 +1,30 @@
-def checkInclusion(s1, s2):
-    A = [ord(x) - ord('a') for x in s1]
-    B = [ord(x) - ord('a') for x in s2]
-    
-    
-    target = [0] * 26
-    for x in A:
-        target[x] += 1
-    
-    window = [0] * 26
-    
-    print(A,B,window)
-    for i, x in enumerate(B):
-        window[x] += 1
-        if i >= len(A):
-            print(i,len(A),B[i - len(A)])
-            window[B[i - len(A)]] -= 1
-        if window == target:
-            return True
-    return False
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        from collections import Counter
 
 
-print(checkInclusion("ab","bdfdfddfba"))
+
+        s1_count = Counter(s1)
+
+        s1_len = len(s1)
+
+        s2_count = Counter(s2)
+
+        d = Counter()
+
+        for i,val in enumerate(s2):
+
+            d[val] += 1
+
+            if(i >= s1_len):
+                d[s2[i-s1_len]] -= 1
+                if(d[s2[i-s1_len]] == 0):
+                    d.pop(s2[i-s1_len])
+            if(d == s1_count):
+                return True
+                
+
+        return False
+
+
+
